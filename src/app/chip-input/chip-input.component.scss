@@ -1,0 +1,9 @@
+.chip-input {
+  &__textbox {
+    border: none;
+    width: 200px;
+    &:focus-visible {
+      outline: none;
+    }
+  }
+}

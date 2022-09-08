@@ -1,8 +1,9 @@
-<label class="input is-primary" for="">
-  <span class="tag is-info">
-    typescript
-    <button class="delete is-small"></button>
-  </span>
-
-  <input type="text" placeholder="Primary input" />
+<label class="input is-primary">
+  <ng-container *ngFor="let value of values; index as i">
+    <span class="tag is-primary mr-2">
+      {{value}}
+      <button class="delete is-small" (click)="onClick(i)"></button>
+    </span>
+  </ng-container>
+  <input #textbox type="text" class="chip-input__textbox" placeholder="Type a Programming Language" (keydown.enter)="onEnterKeydown()" />
 </label>
