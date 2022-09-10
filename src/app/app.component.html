@@ -1,10 +1,17 @@
 <article class="panel is-primary">
-    <p class="panel-heading">
-      Chip Input
-    </p>
-    <div class="panel-block">
-        <chip-input></chip-input>
-    </div>
-  </article>
-
-
+  <p class="panel-heading">Chip Input</p>
+  <div class="panel-block">
+    <chip-input
+      [suggestions]="[
+        'Typescript',
+        'Javascript',
+        'C#',
+        'Objective C',
+        'C++',
+        'Python',
+        'Java',
+        'Perl'
+      ]"
+    ></chip-input>
+  </div>
+</article>

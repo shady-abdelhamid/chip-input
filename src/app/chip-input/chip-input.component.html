@@ -1,5 +1,6 @@
 <!-- <form action=""></form> -->
-<label class="input is-primary">
+
+<label class="input is-primary" [attr.disabled]="isDisabled">
   <ng-container *ngFor="let value of values; index as i">
     <span class="tag is-primary mr-2">
       {{ value }}
@@ -12,7 +13,7 @@
     class="chip-input__textbox"
     placeholder="Type a Programming Language"
     (keydown.enter)="onEnterKeydown()"
-    list="suggestions"
+    list="suggestions" [disabled]="isDisabled"
   />
   <datalist class="chip-input__suggestions" id="suggestions">
     <ng-container *ngFor="let suggestion of suggestions">
