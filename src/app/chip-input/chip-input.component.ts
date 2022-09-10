@@ -11,7 +11,16 @@ import { __values } from 'tslib';
 })
 export class ChipInputComponent implements OnInit {
   values: string[] = [];
-
+  suggestions: string[] = [
+    'Typescript',
+    'Javascript',
+    'C#',
+    'Objective C',
+    'C++',
+    'Python',
+    'Java',
+    'Perl'
+  ]
 
   @ViewChild('textbox', { static: true }) textbox!: ElementRef;
 

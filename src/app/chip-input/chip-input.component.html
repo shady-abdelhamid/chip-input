@@ -1,9 +1,22 @@
+<!-- <form action=""></form> -->
 <label class="input is-primary">
   <ng-container *ngFor="let value of values; index as i">
     <span class="tag is-primary mr-2">
-      {{value}}
+      {{ value }}
       <button class="delete is-small" (click)="onClick(i)"></button>
     </span>
   </ng-container>
-  <input #textbox type="text" class="chip-input__textbox" placeholder="Type a Programming Language" (keydown.enter)="onEnterKeydown()" />
+  <input
+    #textbox
+    type="text"
+    class="chip-input__textbox"
+    placeholder="Type a Programming Language"
+    (keydown.enter)="onEnterKeydown()"
+    list="suggestions"
+  />
+  <datalist class="chip-input__suggestions" id="suggestions">
+    <ng-container *ngFor="let suggestion of suggestions">
+      <option [value]="suggestion"></option
+    ></ng-container>
+  </datalist>
 </label>
