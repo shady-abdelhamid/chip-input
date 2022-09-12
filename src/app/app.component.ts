@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,24 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  public form: FormGroup = this.formBuilder.group({
+    selection: [{value: [''], }, Validators.required],
+  });
+
   title = 'chip-input';
+  suggestionList = [
+    'Typescript',
+    'Javascript',
+    'C#',
+    'Objective C',
+    'C++',
+    'Python',
+    'Java',
+    'Perl'
+  ];
+
+
+  constructor(private formBuilder: FormBuilder) {
+
+  }
 }

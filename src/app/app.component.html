@@ -2,16 +2,38 @@
   <p class="panel-heading">Chip Input</p>
   <div class="panel-block">
     <chip-input
-      [suggestions]="[
-        'Typescript',
-        'Javascript',
-        'C#',
-        'Objective C',
-        'C++',
-        'Python',
-        'Java',
-        'Perl'
-      ]"
+      [suggestions]="suggestionList"
     ></chip-input>
   </div>
 </article>
+
+
+<!-- <section class="section">
+  <h1 class="title">Reactive form</h1>
+  <h2 class="subtitle"></h2>
+
+  <div class="columns">
+    <div class="column">
+      <form [formGroup]="form">
+        <chip-input
+        [suggestions]="suggestionList"
+        formControlName="selection"
+        ngDefaultControl
+      ></chip-input>
+      </form>
+    </div>
+    <div class="column">
+      <article class="message is-primary">
+        <div class="message-header">
+          <p>form</p>
+          <button class="delete" aria-label="delete"></button>
+        </div>
+        <div class="message-body">
+          {{form.value | json}}
+        </div>
+      </article>
+    </div>
+  </div>
+</section> -->
+
+

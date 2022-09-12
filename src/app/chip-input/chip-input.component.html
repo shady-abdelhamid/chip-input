@@ -1,19 +1,21 @@
-<!-- <form action=""></form> -->
-
-<label class="input is-primary" [attr.disabled]="isDisabled">
-  <ng-container *ngFor="let value of values; index as i">
+<label class="input is-primary" #variable="ngModel" [(ngModel)]="value">
+  <ng-container *ngFor="let tag of value; index as i">
     <span class="tag is-primary mr-2">
-      {{ value }}
+      {{ tag }}
       <button class="delete is-small" (click)="onClick(i)"></button>
     </span>
   </ng-container>
   <input
     #textbox
+    
     type="text"
     class="chip-input__textbox"
     placeholder="Type a Programming Language"
+    
     (keydown.enter)="onEnterKeydown()"
-    list="suggestions" [disabled]="isDisabled"
+    list="suggestions"
+    [required]="required" 
+    [disabled]="isDisabled"
   />
   <datalist class="chip-input__suggestions" id="suggestions">
     <ng-container *ngFor="let suggestion of suggestions">

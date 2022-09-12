@@ -1,5 +1,5 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, ElementRef, EventEmitter, forwardRef, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AbstractControl, ControlValueAccessor, FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule, ValidationErrors, Validator } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
@@ -10,28 +10,72 @@ import { BrowserModule } from '@angular/platform-browser';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: ChipInputComponent,
-      multi: true
-    }],
-  imports: [BrowserModule]
+      useExisting: forwardRef(() => ChipInputComponent),
+      multi: true,
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => ChipInputComponent),
+      multi: true,
+    },],
+  imports: [BrowserModule, ReactiveFormsModule, FormsModule]
 })
-export class ChipInputComponent implements OnInit, ControlValueAccessor {
-  values: string[] = [];
+export class ChipInputComponent implements OnInit, ControlValueAccessor, Validator, OnChanges {
+  /** element id attribute */
+  @Input() id!: string;
+  /** element name attribute */
+  @Input() name!: string;
   @Input() suggestions!: string[];
+  /** to disable the chip input or not */
+  @Input() isDisabled = false;
+  /** for check if the chip input is required or not  */
+  @Input() required = false;
 
-  @Output() selection = new EventEmitter<Array<string>>();
+  @Output() changed = new EventEmitter<Array<string>>();
 
-  @ViewChild('textbox', { static: true }) textbox!: ElementRef;
-  field = '';
-  isDisabled = true;
+  @ViewChild('textbox', { read: ElementRef, static: true }) textbox!: ElementRef;
 
-  set value(val: string) {
-    this.field = val
-    this.onChange(val)
-    this.onTouch(val)
+  /** to differentiate between to actions 'onblur' or 'whileWriting' */
+  public validationMode = '';
+
+  /** for hold the inner value for the chip input */
+  private innerValue: Array<string> = [];
+
+  /** pre define actions */
+  public validationModeObj = {
+    onblur: 'onblur',
+    whileWriting: 'whileWriting',
+  };
+
+   /** get accessor including */
+   get value(): any {
+    return this.innerValue;
+  }
+
+  /** set accessor including call the onChange callback */
+  set value(v: Array<string>) {
+    if (v !== this.innerValue) {
+      this.innerValue = v;
+      this.onChange(v);
+      this.changed.emit(v);
+    }
   }
 
   constructor() { }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['validateAfterSubmit']) {
+      if (changes['validateAfterSubmit'].currentValue === false) {
+        this.validationMode = this.validationModeObj.whileWriting;
+      } else {
+        this.validationMode = this.validationModeObj.onblur;
+      }
+    }
+  }
+  validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    return this.validateFn(control);
+  }
+
+  public validateFn: any = () => { };
 
   onChange: any = () => { }
   onTouch: any = () => { }
@@ -54,14 +98,14 @@ export class ChipInputComponent implements OnInit, ControlValueAccessor {
 
   onEnterKeydown() {
     const { value } = this.textbox.nativeElement;
-    this.values.push(value);
-    this.selection.emit(this.values);
+    this.innerValue.push(value);
+    this.changed.emit(this.innerValue);
     this.textbox.nativeElement.value = '';
   }
 
   /** remove tag when clicked */
   onClick(index: number) {
-    this.values.splice(index, 1);
+    this.innerValue.splice(index, 1);
   }
 
 }

@@ -1,7 +1,8 @@
 .chip-input {
   &__textbox {
     border: none;
-    width: 230px;
+    min-width: 230px;
+    width: 100%;
     &:focus-visible {
       outline: none;
     }
