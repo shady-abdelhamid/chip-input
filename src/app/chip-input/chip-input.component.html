@@ -1,9 +1,10 @@
-<label class="input is-primary">
-  <ng-container *ngFor="let tag of values; index as i">
+<div class="input is-primary">
+  <ng-container *ngFor="let chip of chips; index as i">
     <span class="tag is-primary mr-2">
-      {{ tag }}
+      {{ chip }}
       <button
         class="delete is-small"
+        type="button"
         (click)="onClick(i)"
       ></button>
     </span>
@@ -15,12 +16,10 @@
     placeholder="Type a Programming Language"
     (keydown.enter)="onEnterKeydown()"
     list="suggestions"
-    />
-    <!-- [required]="required" -->
-    <!-- [disabled]="isDisabled" -->
+  />
   <datalist class="chip-input__suggestions" id="suggestions">
     <ng-container *ngFor="let suggestion of suggestions">
       <option [value]="suggestion"></option
     ></ng-container>
   </datalist>
-</label>
+</div>

@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AppComponent {
   public form: FormGroup = this.formBuilder.group({
-    selection: [{value: [''], }, Validators.required],
+    selection: [['TypeScript', 'Javascript']],
   });
 
   title = 'chip-input';
