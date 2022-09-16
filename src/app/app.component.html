@@ -37,3 +37,37 @@
     </div>
   </div>
 </section>
+
+<section class="section">
+  <h1 class="title">ngModel</h1>
+  <h2 class="subtitle"></h2>
+
+  <div class="columns">
+    <div class="column">
+      <article class="panel is-primary">
+        <p class="panel-heading">Component</p>
+
+        <div class="panel-block">
+          <chip-input
+            #chipInput
+            [suggestions]="suggestionList"
+            [(ngModel)]="value"
+            (changed)="updateValue($event)"
+            formControlName="selection"
+          ></chip-input>
+        </div>
+      </article>
+    </div>
+    <div class="column">
+      <article class="message is-primary">
+        <div class="message-header">
+          <p>value</p>
+          <button class="delete" aria-label="delete"></button>
+        </div>
+        <div class="message-body">
+          {{ value }}
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

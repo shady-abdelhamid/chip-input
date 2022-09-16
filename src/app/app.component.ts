@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChipInputComponent } from './chip-input/chip-input.component';
 
 @Component({
   selector: 'app-root',
@@ -22,9 +23,14 @@ export class AppComponent {
     'Java',
     'Perl'
   ];
-
+  
+  value!: Array<string>;
 
   constructor(private formBuilder: FormBuilder) {
 
+  }
+
+  updateValue(chips: Array<string>) {
+    this.value = chips;
   }
 }

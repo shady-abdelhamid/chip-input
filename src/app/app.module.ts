@@ -11,8 +11,9 @@ import { ChipInputComponent } from './chip-input/chip-input.component';
   ],
   imports: [
     BrowserModule,
-    ReactiveFormsModule,
     FormsModule,
+
+    ReactiveFormsModule,
     ChipInputComponent,
   ],
   providers: [],

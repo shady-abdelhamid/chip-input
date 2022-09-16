@@ -1,5 +1,19 @@
-import { Component, ElementRef, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
@@ -7,7 +21,7 @@ import { BrowserModule } from '@angular/platform-browser';
   selector: 'chip-input',
   templateUrl: './chip-input.component.html',
   styleUrls: ['./chip-input.component.scss'],
-  imports: [BrowserModule, FormsModule],
+  imports: [BrowserModule, FormsModule, ReactiveFormsModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -19,6 +33,8 @@ import { BrowserModule } from '@angular/platform-browser';
 export class ChipInputComponent implements OnInit, ControlValueAccessor {
   chips: Array<string> = [];
   @Input() suggestions!: string[];
+  @Output() changed = new EventEmitter<Array<string>>();
+  
   @ViewChild('textbox', { static: true }) textbox!: ElementRef;
 
   // onChange placeholder
@@ -30,6 +46,18 @@ export class ChipInputComponent implements OnInit, ControlValueAccessor {
   touched = false;
 
   disabled = false;
+
+  set value(chips: Array<string>) {
+    if (chips != this.chips) {
+      this.chips = chips;
+      this.onChange(chips);
+      this.changed.emit(chips);
+    }
+  }
+
+  get value() {
+    return this.chips;
+  }
 
   constructor() {}
 
@@ -52,8 +80,6 @@ export class ChipInputComponent implements OnInit, ControlValueAccessor {
     this.markAsTouched();
     const { value } = this.textbox.nativeElement;
     this.chips = [...this.chips, value];
-    console.log(this.chips);
-
     this.onChange(this.chips);
     this.textbox.nativeElement.value = '';
   }
@@ -61,11 +87,10 @@ export class ChipInputComponent implements OnInit, ControlValueAccessor {
   /** remove tag when clicked */
   onClick(index: number) {
     console.log(index);
-    
+
     this.markAsTouched();
     this.chips.splice(index, 1);
-    console.log(this.chips);
-    
+
     this.onChange(this.chips);
   }
 
